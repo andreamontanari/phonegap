@@ -9,11 +9,12 @@ var app = {
     },
 
     registerEvents: function() {
-        $(window).on('hashchange', $.proxy(this.route, this));
+        //$(window).on('hashchange', $.proxy(this.route, this));
         var self = this;
         // Check of browser supports touch events...
         if (document.documentElement.hasOwnProperty('ontouchstart')) {
             // ... if yes: register touch event listener to change the "selected" state of the item
+            $(window).on('hashchange', $.proxy(this.route, this));
             $('body').on('touchstart', 'a', function(event) {
                 $(event.target).addClass('tappable-active');
             });
@@ -22,6 +23,7 @@ var app = {
             });
         } else {
             // ... if not: register mouse events instead
+            $(window).on('hashchange', $.proxy(this.route, this));
             $('body').on('mousedown', 'a', function(event) {
                 $(event.target).addClass('tappable-active');
             });
@@ -40,11 +42,10 @@ var app = {
         var match = hash.match(app.detailsURL);
         if (match) {
             this.store.findById(Number(match[1]), function(employee) {
-                $('body').html(new EmployeeView(employee).render().el);
+            $('body').html(new EmployeeView(employee).render().el);
             });
         }
     },
-
 
     initialize: function() {
         var self = this;
